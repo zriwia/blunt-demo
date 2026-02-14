@@ -685,20 +685,52 @@ function submitSurvey() {
 }
 
 function sendData(data) {
-    // Log to console for testing
     console.log('Survey Data:', JSON.stringify(data, null, 2));
     
-    // TODO: Send to Google Sheets or backend
-    // For now, store in localStorage as backup
+    // Store in localStorage as backup
     const stored = JSON.parse(localStorage.getItem('h10_responses') || '[]');
     stored.push(data);
     localStorage.setItem('h10_responses', JSON.stringify(stored));
     
-    // If you have a Google Apps Script webhook:
-    // fetch('YOUR_GOOGLE_SCRIPT_URL', {
-    //     method: 'POST',
-    //     body: JSON.stringify(data)
-    // });
+    // ═══════════════════════════════════════════════════════════════════════════
+    // BACKEND CONFIGURATION
+    // Uncomment ONE of the options below and add your endpoint URL
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    // OPTION 1: Formspree (Free, instant, no setup)
+    // Create form at https://formspree.io → use your form ID
+    const FORMSPREE_URL = 'https://formspree.io/f/XXXXXXXX'; // Replace with your form ID
+    
+    // OPTION 2: Google Apps Script (More robust, see backend/google-apps-script.gs)
+    // const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+    
+    // Send to primary backend
+    const backendUrl = FORMSPREE_URL; // Change to GOOGLE_SCRIPT_URL if using that
+    
+    if (backendUrl && !backendUrl.includes('XXXXXXXX') && !backendUrl.includes('YOUR_SCRIPT_ID')) {
+        fetch(backendUrl, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data),
+            mode: 'cors'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('✅ Data sent to backend successfully');
+            } else {
+                console.warn('⚠️ Backend responded with:', response.status);
+            }
+        })
+        .catch(error => {
+            console.warn('⚠️ Backend send failed (data saved locally):', error);
+        });
+    } else {
+        console.warn('⚠️ No backend configured — data saved to localStorage only');
+        console.warn('To configure: Edit h10-survey.html, find sendData(), set FORMSPREE_URL or GOOGLE_SCRIPT_URL');
+    }
 }
 
 function copyCode() {
