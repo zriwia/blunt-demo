@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blunt Ad Boards</title>
+  <style>
+    :root {
+      --ink: #070708;
+      --paper: #f6f0e5;
+      --accent: #ff5d2d;
+      --accent-soft: rgba(255, 93, 45, 0.14);
+      --muted: #655e56;
+      --line: rgba(7, 7, 8, 0.12);
+      --white: rgba(255, 255, 255, 0.78);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(255, 93, 45, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 209, 102, 0.18), transparent 22%),
+        var(--paper);
+      color: var(--ink);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .board {
+      width: min(100vw - 48px, 1200px);
+      aspect-ratio: 1 / 1;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,255,255,0.08)),
+        linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0)),
+        transparent;
+      border: 1px solid var(--line);
+      border-radius: 42px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(7, 7, 8, 0.12);
+      position: relative;
+      display: none;
+    }
+
+    .board.active { display: block; }
+    .board.portrait { aspect-ratio: 4 / 5; width: min(100vw - 48px, 1080px); }
+
+    .inner {
+      position: absolute;
+      inset: 0;
+      padding: 42px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .brand { color: var(--ink); }
+    .brand span { color: var(--accent); }
+
+    .kicker {
+      display: inline-flex;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      gap: 20px;
+      align-content: center;
+    }
+
+    .hero.two-col {
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font: 900 clamp(66px, 7vw, 118px)/0.92 Georgia, "Times New Roman", serif;
+      letter-spacing: -0.06em;
+      max-width: 7.5ch;
+    }
+
+    .sub {
+      margin: 0;
+      max-width: 32ch;
+      font-size: 25px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .chat-card,
+    .stack-card,
+    .metric-card {
+      background: var(--white);
+      border: 1px solid rgba(7, 7, 8, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 18px 40px rgba(7, 7, 8, 0.08);
+    }
+
+    .chat-card {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .bubble {
+      padding: 16px 18px;
+      border-radius: 20px;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .bubble.user {
+      background: rgba(7, 7, 8, 0.08);
+      justify-self: end;
+      max-width: 86%;
+    }
+
+    .bubble.ai {
+      background: #101010;
+      color: #fff;
+      max-width: 92%;
+    }
+
+    .confidence {
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: #ffd166;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stack-card {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 12px;
+      align-items: start;
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .stack-row .dash {
+      color: var(--accent);
+      font-size: 34px;
+      line-height: 1;
+      transform: translateY(-3px);
+    }
+
+    .stack-row.faded { opacity: 0.18; }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 18px;
+    }
+
+    .metric-card b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-card span {
+      display: block;
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+    }
+
+    .footer-copy {
+      max-width: 34ch;
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 0 22px;
+      border-radius: 18px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .portrait h1 { max-width: 6.2ch; }
+    .portrait .sub { max-width: 26ch; font-size: 23px; }
+    .portrait .hero { align-content: start; }
+    .portrait .inner { grid-template-rows: auto auto 1fr auto; }
+  </style>
+</head>
+<body>
+  <section class="board active" data-variant="square-01">
+    <div class="inner">
+      <div class="topline">
+        <div class="brand">blunt<span>.</span></div>
+        <div class="kicker">Paid image creative 01</div>
+      </div>
+
+      <div class="hero two-col">
+        <div>
+          <h1>AI should show how sure it is.</h1>
+          <p class="sub">Visible confidence makes AI feel more honest, more useful, and harder to trust blindly.</p>
+        </div>
+        <div class="chat-card">
+          <div class="bubble user">Should I rely on this without double-checking it?</div>
+          <div class="bubble ai">Not automatically. The answer looks directionally solid, but it still depends on context and downside.<div class="confidence">Medium confidence</div></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-copy">A 2-minute concept reaction for people who already use AI and feel the trust gap.</div>
+        <div class="cta">See the concept</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="board" data-variant="square-02">
+    <div class="inner">
+      <div class="topline">
+        <div class="brand">blunt<span>.</span></div>
+        <div class="kicker">Paid image creative 02</div>
+      </div>
+
+      <div class="hero">
+        <div>
+          <h1>Most AI hides uncertainty behind tone.</h1>
+          <p class="sub">Blunt turns confidence into part of the interface so the user can decide when to trust and when to verify.</p>
+        </div>
+        <div class="stack-card">
+          <div class="stack-row"><span class="dash">-</span><span>Great question.</span></div>
+          <div class="stack-row faded"><span class="dash">-</span><span>Happy to help.</span></div>
+          <div class="stack-row faded"><span class="dash">-</span><span>You are absolutely right.</span></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-card"><b>Wedge</b><span>Confidence visible by default</span></div>
+          <div class="metric-card"><b>Promise</b><span>Trust with less pretending</span></div>
+          <div class="metric-card"><b>Action</b><span>Leave a reaction</span></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-copy">Built for founders, operators, analysts, researchers, and anyone acting on AI output.</div>
+        <div class="cta">React in 2 minutes</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="board portrait" data-variant="portrait-01">
+    <div class="inner">
+      <div class="topline">
+        <div class="brand">blunt<span>.</span></div>
+        <div class="kicker">Portrait backup</div>
+      </div>
+
+      <div>
+        <h1>Trust AI less blindly.</h1>
+        <p class="sub">Blunt makes confidence visible so users know when to rely, when to verify, and when to push back.</p>
+      </div>
+
+      <div class="chat-card">
+        <div class="bubble user">Can I act on this answer?</div>
+        <div class="bubble ai">Only if the downside is low or you verify it first.<div class="confidence">Medium confidence</div></div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-copy">A sharper AI interface for high-stakes decisions.</div>
+        <div class="cta">See the concept</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const activeVariant = params.get("variant") || "square-01";
+    const boards = [...document.querySelectorAll(".board")];
+    boards.forEach((board) => {
+      board.classList.toggle("active", board.dataset.variant === activeVariant);
+    });
+  </script>
+</body>
+</html>

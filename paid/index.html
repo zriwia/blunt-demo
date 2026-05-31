@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blunt | Paid Launch Landing</title>
+  <style>
+    :root {
+      --ink: #0c0c0d;
+      --paper: #f4efe6;
+      --card: rgba(255, 255, 255, 0.76);
+      --muted: #615b53;
+      --line: rgba(12, 12, 13, 0.12);
+      --accent: #ff5d2d;
+      --accent-soft: #ffd8c8;
+      --glow: rgba(255, 93, 45, 0.18);
+      --ok: #0d8c61;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 93, 45, 0.16), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(255, 209, 102, 0.20), transparent 24%),
+        linear-gradient(180deg, #f8f3eb 0%, var(--paper) 100%);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 72px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .brand {
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .status {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
+      gap: 26px;
+      align-items: stretch;
+      margin-bottom: 26px;
+    }
+
+    .hero-copy,
+    .hero-media,
+    .section-card,
+    .quote-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(12, 12, 13, 0.08);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -60px;
+      top: -90px;
+      border-radius: 50%;
+      background: var(--glow);
+      filter: blur(6px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 93, 45, 0.12);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font: 900 clamp(46px, 7.2vw, 88px)/0.94 Georgia, "Times New Roman", serif;
+      letter-spacing: -0.06em;
+      max-width: 11ch;
+    }
+
+    .lead {
+      max-width: 57ch;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.62;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      transition: transform 140ms ease, box-shadow 140ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn.primary {
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 20px 36px rgba(12, 12, 13, 0.18);
+    }
+
+    .btn.secondary {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .micro {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .micro-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(12, 12, 13, 0.08);
+    }
+
+    .micro-card b {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .micro-card span {
+      display: block;
+      font-size: 16px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .hero-media {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .media-shell {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #090909;
+      min-height: 100%;
+    }
+
+    .media-shell video {
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+
+    .media-tag {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 2;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .signal-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .signal {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(12, 12, 13, 0.08);
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .signal strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .section-card {
+      padding: 26px;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+    .span-8 { grid-column: span 8; }
+
+    h2 {
+      margin: 0 0 10px;
+      font: 800 clamp(28px, 3.8vw, 42px)/1.02 Georgia, "Times New Roman", serif;
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .callout {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(12, 12, 13, 0.08);
+    }
+
+    .callout-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .callout h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .quote-card {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .quote-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .chat {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bubble {
+      max-width: 92%;
+      padding: 16px 18px;
+      border-radius: 20px;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .bubble.user {
+      background: rgba(12, 12, 13, 0.08);
+      justify-self: end;
+    }
+
+    .bubble.ai {
+      background: #111;
+      color: #fff;
+    }
+
+    .confidence {
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffd166;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(13, 140, 97, 0.08);
+      border: 1px solid rgba(13, 140, 97, 0.16);
+      color: var(--ok);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid { grid-template-columns: 1fr; }
+      .span-7,
+      .span-5,
+      .span-4,
+      .span-8 { grid-column: auto; }
+      .micro,
+      .signal-bar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">blunt<span>.</span> paid activation</div>
+      <div class="status">Launch-ready landing for paid traffic on Monday morning</div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Confidence as product, not tone</div>
+        <h1>AI should show how sure it is.</h1>
+        <p class="lead">Most AI hides uncertainty behind smooth phrasing. Blunt makes confidence visible, so people know when to trust, when to verify, and when to push back. This page is built for paid traffic that needs one clear next step.</p>
+        <div class="cta-row">
+          <a class="btn primary" id="reactCta" href="../h10-survey.html">See the concept and react</a>
+          <a class="btn secondary" id="videoCta" href="#manifesto">Watch the manifesto clip</a>
+        </div>
+        <div class="micro">
+          <div class="micro-card"><b>Goal</b><span>High-signal reactions from relevant people, not broad vanity traffic.</span></div>
+          <div class="micro-card"><b>Offer</b><span>2-minute concept reaction plus optional email for follow-up or demo.</span></div>
+          <div class="micro-card"><b>Tracking</b><span>UTM source, creative variant, session id, clicks, views and submits.</span></div>
+        </div>
+      </div>
+
+      <div class="hero-media" id="manifesto">
+        <div class="media-shell">
+          <div class="media-tag">Video creative ready</div>
+          <video autoplay muted loop playsinline preload="metadata" poster="../launch/creative/blunt_ad_square_01.png" aria-label="Blunt manifesto preview">
+            <source src="../launch/creative/blunt_manifesto_15s.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="signal-bar">
+          <div class="signal"><strong>Primary hook</strong>Honest AI should make uncertainty visible instead of faking certainty.</div>
+          <div class="signal"><strong>Primary audience</strong>AI builders, product leaders, researchers, and high-stakes knowledge workers.</div>
+          <div class="signal"><strong>Primary action</strong>Click through to the survey and leave a fast concept reaction.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section-card span-7">
+        <h2>One clear paid path.</h2>
+        <p class="section-copy">The ad does not try to close a sale. It earns curiosity, lands on a single message, and moves the visitor into one measurable action: react to the concept. That makes tomorrow morning activation simple. Turn traffic on, route to this landing, and let the survey separate noise from real interest.</p>
+        <div class="stack">
+          <div class="callout">
+            <div class="callout-badge">01</div>
+            <div>
+              <h3>Ad creative makes the tension obvious</h3>
+              <p>“AI should show how sure it is.” Bold claim, strong visual system, no feature dump.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <div class="callout-badge">02</div>
+            <div>
+              <h3>Landing page sharpens the wedge</h3>
+              <p>The visitor sees the thesis, the demo moment, and the exact action expected from them.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <div class="callout-badge">03</div>
+            <div>
+              <h3>Survey converts attention into signal</h3>
+              <p>Every click carries `src`, `v`, and `sid`, so you can separate traffic source and creative quality tomorrow.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-card span-5">
+        <div class="quote-label">What the product feels like</div>
+        <div class="chat">
+          <div class="bubble user">Should I rely on this answer without double-checking it?</div>
+          <div class="bubble ai">Not automatically. The answer looks directionally solid, but whether you should act on it depends on the context, source quality, and what happens if it is wrong.<div class="confidence">Medium confidence</div></div>
+        </div>
+        <div class="footer-note">This is the exact interaction you are selling in paid: visible confidence as a trust layer, not another generic AI promise.</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="section-card span-4">
+        <h2>Who this is for.</h2>
+        <p class="section-copy">People who already use AI, but feel the trust gap: founders, operators, product teams, researchers, analysts, and consultants dealing with consequential answers.</p>
+      </div>
+      <div class="section-card span-4">
+        <h2>What to measure.</h2>
+        <p class="section-copy">CTR from ad to landing, click-through from landing to survey, completed submissions, strong qualitative comments, and optional follow-up emails.</p>
+      </div>
+      <div class="section-card span-4">
+        <h2>What happens next.</h2>
+        <p class="section-copy">If the paid signal is strong, keep the survey as qualifying front door and follow with demo invites, deeper interviews, or an early-access waitlist.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const WEBHOOK = "https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4";
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("src") || "paid";
+    const variant = params.get("v") || "landing-paid";
+    const campaign = params.get("campaign") || "blunt-paid-launch";
+    const sessionId = localStorage.getItem("blunt_session") || crypto.randomUUID();
+    localStorage.setItem("blunt_session", sessionId);
+
+    const reactCta = document.getElementById("reactCta");
+    const surveyParams = new URLSearchParams({
+      src: source,
+      v: variant,
+      campaign,
+      sid: sessionId
+    });
+    reactCta.href = "../h10-survey.html?" + surveyParams.toString();
+
+    function sendEvent(eventName, extra) {
+      const payload = JSON.stringify({
+        event: eventName,
+        source,
+        variant,
+        campaign,
+        sessionId,
+        url: location.href,
+        ts: new Date().toISOString(),
+        ...extra
+      });
+
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(WEBHOOK, new Blob([payload], { type: "text/plain;charset=UTF-8" }));
+        return;
+      }
+
+      fetch(WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
+    }
+
+    sendEvent("paid_landing_view", {});
+    reactCta.addEventListener("click", () => sendEvent("paid_landing_cta_click", { target: "survey" }));
+    document.getElementById("videoCta").addEventListener("click", () => sendEvent("paid_landing_cta_click", { target: "video" }));
+  </script>
+</body>
+</html>
