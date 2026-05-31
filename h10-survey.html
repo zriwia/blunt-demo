@@ -1,213 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Assistant Feedback Study</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --charcoal: #1a1a1a;
-            --green: #22c55e;
-            --amber: #f59e0b;
-            --red: #ef4444;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-400: #9ca3af;
-            --gray-600: #4b5563;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--gray-50); color: var(--charcoal); line-height: 1.6; min-height: 100vh; padding: 2rem; }
-        .container { max-width: 700px; margin: 0 auto; }
-        .card { background: white; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-        h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
-        p { margin-bottom: 1rem; color: var(--gray-600); }
-        .progress { height: 4px; background: var(--gray-200); border-radius: 2px; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; background: var(--charcoal); border-radius: 2px; transition: width 0.3s; }
-        .step { display: none; }
-        .step.active { display: block; }
-        .ai-response { background: var(--gray-100); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
-        .ai-response-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-weight: 600; }
-        .ai-avatar { width: 32px; height: 32px; background: var(--charcoal); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; }
-        .ai-text { font-size: 1rem; line-height: 1.7; color: var(--charcoal); }
-        .confidence-display { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.875rem; font-weight: 500; }
-        .confidence-empowering { background: rgba(34, 197, 94, 0.1); color: #166534; border-left: 3px solid var(--green); }
-        .confidence-warning { background: rgba(245, 158, 11, 0.1); color: #92400e; border-left: 3px solid var(--amber); }
-        .user-question { background: var(--charcoal); color: white; padding: 1rem 1.25rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.95rem; }
-        .likert-container { margin: 1.5rem 0; }
-        .likert-question { font-weight: 500; margin-bottom: 0.75rem; }
-        .likert-scale { display: flex; justify-content: space-between; gap: 0.5rem; }
-        .likert-option { flex: 1; text-align: center; }
-        .likert-option input { display: none; }
-        .likert-option label { display: block; padding: 0.75rem 0.5rem; border: 2px solid var(--gray-200); border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; }
-        .likert-option input:checked + label { border-color: var(--charcoal); background: var(--charcoal); color: white; }
-        .likert-option label:hover { border-color: var(--gray-400); }
-        .likert-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray-400); margin-top: 0.5rem; }
-        textarea { width: 100%; padding: 1rem; border: 2px solid var(--gray-200); border-radius: 12px; font-family: inherit; font-size: 1rem; resize: vertical; min-height: 100px; }
-        textarea:focus { outline: none; border-color: var(--charcoal); }
-        .btn { display: inline-block; padding: 0.875rem 2rem; background: var(--charcoal); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
-        .btn:hover { transform: translateY(-1px); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-secondary { background: white; color: var(--charcoal); border: 2px solid var(--gray-200); }
-        .btn-group { display: flex; gap: 1rem; margin-top: 2rem; }
-        select { width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--gray-200); border-radius: 12px; font-family: inherit; font-size: 1rem; background: white; cursor: pointer; }
-        select:focus { outline: none; border-color: var(--charcoal); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
-        .attention-check { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-        .completion-code { background: var(--gray-100); padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1.5rem 0; }
-        .completion-code code { display: block; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); margin-top: 0.5rem; letter-spacing: 0.1em; }
-        .hidden { display: none !important; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blunt | Concept Reaction</title>
+  <style>
+    :root { --ink:#101010; --paper:#f6f1e8; --accent:#ff6a3d; --muted:#6b645c; --line:rgba(16,16,16,.12); --ok:#0f8b5f; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Helvetica, Arial, sans-serif; color:var(--ink); background:var(--paper); }
+    .wrap { max-width:860px; margin:0 auto; padding:32px 18px 80px; }
+    .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:800; }
+    h1 { font:700 clamp(34px, 6vw, 58px)/0.98 Georgia, serif; margin:10px 0 12px; letter-spacing:-.04em; }
+    .sub { margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.6; }
+    .panel { background:rgba(255,255,255,.7); border:1px solid var(--line); border-radius:24px; padding:22px; margin-bottom:18px; }
+    .prompt { margin-bottom:16px; font-size:15px; color:var(--muted); }
+    .ai { background:#111; color:#fff; border-radius:18px; padding:18px; line-height:1.6; margin-top:12px; }
+    .confidence { display:inline-block; margin-top:12px; background:rgba(255,255,255,.14); color:#ffd166; border-radius:999px; padding:8px 10px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+    form { display:grid; gap:18px; }
+    .field { padding:18px; border-radius:20px; background:rgba(255,255,255,.55); border:1px solid var(--line); }
+    label { display:block; font-size:14px; font-weight:700; margin-bottom:10px; }
+    .scale { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; }
+    .scale label { margin:0; }
+    .scale input { display:none; }
+    .scale span { display:block; text-align:center; padding:12px 0; border-radius:12px; border:1px solid var(--line); background:#fff; font-weight:700; cursor:pointer; }
+    .scale input:checked + span { background:var(--ink); color:#fff; border-color:var(--ink); }
+    textarea, input[type='text'], input[type='email'], select { width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 15px; font:inherit; background:#fff; }
+    button { appearance:none; border:0; border-radius:14px; background:var(--ink); color:#fff; padding:16px 22px; font-size:15px; font-weight:700; cursor:pointer; }
+    .note { font-size:13px; color:var(--muted); line-height:1.5; }
+    .hidden { display:none; }
+    .success { background:rgba(15,139,95,.08); border:1px solid rgba(15,139,95,.22); color:var(--ok); border-radius:18px; padding:16px; font-weight:700; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="progress"><div class="progress-bar" id="progressBar" style="width: 0%"></div></div>
-        
-        <div class="step active" id="step1">
-            <div class="card">
-                <h1>AI Assistant Feedback Study</h1>
-                <p>Thank you for participating. You will see an AI response and share your impressions.</p>
-                <p><strong>Duration:</strong> ~5 minutes | <strong>Reward:</strong> £1.25</p>
-                <p>By clicking "I Agree", you confirm you are 18+ and consent to participate.</p>
-                <div class="btn-group"><button class="btn" onclick="nextStep()">I Agree — Start Study</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step2">
-            <div class="card">
-                <h2>Instructions</h2>
-                <p>On the next page, you'll see a question and an AI's response with a confidence indicator.</p>
-                <p>Please read carefully and answer based on your honest impressions.</p>
-                <div class="btn-group"><button class="btn" onclick="nextStep()">Continue</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step3">
-            <div class="card">
-                <h2>AI Assistant Response</h2>
-                <p style="font-size: 0.9rem; color: var(--gray-400); margin-bottom: 1rem;">Someone asked:</p>
-                <div class="user-question">"What's the most effective way to learn a new language?"</div>
-                <div class="ai-response">
-                    <div class="ai-response-header"><div class="ai-avatar">AI</div><span>Assistant</span></div>
-                    <div class="ai-text">Research suggests immersion is highly effective, but combining multiple methods works best: daily practice, conversation with native speakers, and spaced repetition for vocabulary. Apps like Duolingo help with consistency, but shouldn't be your only method.</div>
-                    <div class="confidence-display confidence-empowering" id="conditionA">🟢 <strong>HIGH CONFIDENCE</strong> — I'm showing you my confidence level: this response is well-supported by research.</div>
-                    <div class="confidence-display confidence-warning hidden" id="conditionB">⚠️ <strong>CONFIDENCE: 78%</strong> — Caution: some uncertainty exists. Verify important claims before acting.</div>
-                </div>
-                <div class="btn-group"><button class="btn" onclick="nextStep()">Continue to Questions</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step4">
-            <div class="card">
-                <h2>Your Impressions</h2>
-                <div class="likert-container"><div class="likert-question">1. I trust this AI's response.</div><div class="likert-scale"><div class="likert-option"><input type="radio" name="q1" id="q1_1" value="1"><label for="q1_1">1</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_2" value="2"><label for="q1_2">2</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_3" value="3"><label for="q1_3">3</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_4" value="4"><label for="q1_4">4</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_5" value="5"><label for="q1_5">5</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_6" value="6"><label for="q1_6">6</label></div><div class="likert-option"><input type="radio" name="q1" id="q1_7" value="7"><label for="q1_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
-                <div class="likert-container"><div class="likert-question">2. This AI seems honest.</div><div class="likert-scale"><div class="likert-option"><input type="radio" name="q2" id="q2_1" value="1"><label for="q2_1">1</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_2" value="2"><label for="q2_2">2</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_3" value="3"><label for="q2_3">3</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_4" value="4"><label for="q2_4">4</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_5" value="5"><label for="q2_5">5</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_6" value="6"><label for="q2_6">6</label></div><div class="likert-option"><input type="radio" name="q2" id="q2_7" value="7"><label for="q2_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
-                <div class="likert-container"><div class="likert-question">3. I would use this AI again.</div><div class="likert-scale"><div class="likert-option"><input type="radio" name="q3" id="q3_1" value="1"><label for="q3_1">1</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_2" value="2"><label for="q3_2">2</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_3" value="3"><label for="q3_3">3</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_4" value="4"><label for="q3_4">4</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_5" value="5"><label for="q3_5">5</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_6" value="6"><label for="q3_6">6</label></div><div class="likert-option"><input type="radio" name="q3" id="q3_7" value="7"><label for="q3_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
-                <div class="likert-container"><div class="likert-question">4. This AI is transparent about its limitations.</div><div class="likert-scale"><div class="likert-option"><input type="radio" name="q4" id="q4_1" value="1"><label for="q4_1">1</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_2" value="2"><label for="q4_2">2</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_3" value="3"><label for="q4_3">3</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_4" value="4"><label for="q4_4">4</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_5" value="5"><label for="q4_5">5</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_6" value="6"><label for="q4_6">6</label></div><div class="likert-option"><input type="radio" name="q4" id="q4_7" value="7"><label for="q4_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
-                <div class="likert-container"><div class="likert-question">5. I feel confident acting on this AI's advice.</div><div class="likert-scale"><div class="likert-option"><input type="radio" name="q5" id="q5_1" value="1"><label for="q5_1">1</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_2" value="2"><label for="q5_2">2</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_3" value="3"><label for="q5_3">3</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_4" value="4"><label for="q5_4">4</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_5" value="5"><label for="q5_5">5</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_6" value="6"><label for="q5_6">6</label></div><div class="likert-option"><input type="radio" name="q5" id="q5_7" value="7"><label for="q5_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div>
-                <div class="btn-group"><button class="btn" onclick="validateAndNext(4)">Continue</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step5">
-            <div class="card">
-                <h2>A Few More Questions</h2>
-                <div class="form-group"><label for="openEnded">What made you trust or distrust this AI? (Optional)</label><textarea id="openEnded" placeholder="Share your thoughts..."></textarea></div>
-                <div class="attention-check"><div class="form-group" style="margin-bottom: 0;"><label>To show you're paying attention, please select "Somewhat Agree" below:</label><div class="likert-scale" style="margin-top: 0.75rem;"><div class="likert-option"><input type="radio" name="attention" id="att_1" value="1"><label for="att_1">1</label></div><div class="likert-option"><input type="radio" name="attention" id="att_2" value="2"><label for="att_2">2</label></div><div class="likert-option"><input type="radio" name="attention" id="att_3" value="3"><label for="att_3">3</label></div><div class="likert-option"><input type="radio" name="attention" id="att_4" value="4"><label for="att_4">4</label></div><div class="likert-option"><input type="radio" name="attention" id="att_5" value="5"><label for="att_5">5</label></div><div class="likert-option"><input type="radio" name="attention" id="att_6" value="6"><label for="att_6">6</label></div><div class="likert-option"><input type="radio" name="attention" id="att_7" value="7"><label for="att_7">7</label></div></div><div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div></div></div>
-                <div class="form-group"><label for="aiFamiliarity">How often do you use AI assistants?</label><select id="aiFamiliarity" required><option value="">Select...</option><option value="daily">Daily</option><option value="weekly">A few times a week</option><option value="monthly">A few times a month</option><option value="rarely">Rarely</option><option value="never">Never</option></select></div>
-                <div class="btn-group"><button class="btn" onclick="validateAndNext(5)">Continue</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step6">
-            <div class="card">
-                <h2>About You</h2>
-                <div class="form-group"><label for="age">Age Range</label><select id="age"><option value="">Prefer not to say</option><option value="18-24">18-24</option><option value="25-34">25-34</option><option value="35-44">35-44</option><option value="45-54">45-54</option><option value="55+">55+</option></select></div>
-                <div class="form-group"><label for="gender">Gender</label><select id="gender"><option value="">Prefer not to say</option><option value="male">Male</option><option value="female">Female</option><option value="nonbinary">Non-binary</option><option value="other">Other</option></select></div>
-                <div class="btn-group"><button class="btn" onclick="submitSurvey()">Submit</button></div>
-            </div>
-        </div>
-
-        <div class="step" id="step7">
-            <div class="card">
-                <h1>Thank You! 🎉</h1>
-                <p>Your response has been recorded.</p>
-                <div class="completion-code"><p>Your completion code for Prolific:</p><code id="completionCode">BLUNT-H10-XXXX</code></div>
-                <div class="btn-group"><button class="btn" onclick="copyCode()">Copy Code</button><a href="https://app.prolific.com/submissions/complete?cc=BLUNT-H10" class="btn btn-secondary" id="prolificReturn">Return to Prolific</a></div>
-            </div>
-        </div>
+  <div class="wrap">
+    <div class="eyebrow">Blunt concept test</div>
+    <h1>What is your reaction to AI that shows confidence openly?</h1>
+    <p class="sub">This is a short concept reaction. We are measuring whether visible confidence makes AI feel more trustworthy, more honest, and more useful.</p>
+    <div class="panel">
+      <div class="prompt">Someone asks: <strong>"Should I rely on this answer without double-checking it?"</strong></div>
+      <div class="ai">Not automatically. The answer looks directionally solid, but whether you should act on it depends on context, source quality, and what happens if it is wrong. If the downside is meaningful, verify it.<div class="confidence">Medium confidence</div></div>
     </div>
-
-<script>
-let currentStep = 1;
-const totalSteps = 7;
-let condition = Math.random() < 0.5 ? 'A' : 'B';
-const urlParams = new URLSearchParams(window.location.search);
-const prolificPID = urlParams.get('PROLIFIC_PID') || 'test_' + Math.random().toString(36).substr(2, 9);
-const studyID = urlParams.get('STUDY_ID') || 'H10_TEST';
-const sessionID = urlParams.get('SESSION_ID') || Date.now().toString();
-
-const responseData = { prolificPID, studyID, sessionID, condition, startTime: new Date().toISOString(), responses: {}, demographics: {} };
-
-function updateProgress() { document.getElementById('progressBar').style.width = ((currentStep - 1) / (totalSteps - 1)) * 100 + '%'; }
-function showStep(step) { document.querySelectorAll('.step').forEach(el => el.classList.remove('active')); document.getElementById('step' + step).classList.add('active'); updateProgress(); window.scrollTo(0, 0); }
-function nextStep() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); if (currentStep === 3) applyCondition(); } }
-function validateAndNext(step) {
-    if (step === 4) { for (let i = 1; i <= 5; i++) { const sel = document.querySelector(`input[name="q${i}"]:checked`); if (!sel) { alert('Please answer all questions.'); return; } responseData.responses['trust_' + i] = parseInt(sel.value); } }
-    if (step === 5) { const att = document.querySelector('input[name="attention"]:checked'); const fam = document.getElementById('aiFamiliarity').value; if (!att || !fam) { alert('Please complete all questions.'); return; } responseData.attentionCheck = parseInt(att.value); responseData.openEnded = document.getElementById('openEnded').value; responseData.aiFamiliarity = fam; }
-    nextStep();
-}
-function applyCondition() { document.getElementById('condition' + condition).classList.remove('hidden'); document.getElementById('condition' + (condition === 'A' ? 'B' : 'A')).classList.add('hidden'); }
-function submitSurvey() {
-    responseData.demographics.age = document.getElementById('age').value;
-    responseData.demographics.gender = document.getElementById('gender').value;
-    responseData.endTime = new Date().toISOString();
-    const code = 'BLUNT-H10-' + condition + '-' + prolificPID.substr(-4).toUpperCase();
-    document.getElementById('completionCode').textContent = code;
-    document.getElementById('prolificReturn').href = 'https://app.prolific.com/submissions/complete?cc=' + encodeURIComponent(code);
-    sendToCoda(responseData);
-    currentStep = 7; showStep(7);
-}
-
-function sendToCoda(data) {
-    // Flatten data for Coda form
-    const formData = {
-        timestamp: data.endTime,
-        prolific_pid: data.prolificPID,
-        condition: data.condition,
-        trust_1: data.responses.trust_1,
-        trust_2: data.responses.trust_2,
-        trust_3: data.responses.trust_3,
-        trust_4: data.responses.trust_4,
-        trust_5: data.responses.trust_5,
-        attention: data.attentionCheck,
-        attention_passed: data.attentionCheck === 5 || data.attentionCheck === 6,
-        open_ended: data.openEnded,
-        ai_familiarity: data.aiFamiliarity,
-        age: data.demographics.age,
-        gender: data.demographics.gender
-    };
-    
-    // Store locally as backup
-    const stored = JSON.parse(localStorage.getItem('h10_responses') || '[]');
-    stored.push(formData);
-    localStorage.setItem('h10_responses', JSON.stringify(stored));
-    console.log('Survey data:', formData);
-    
-    // POST to Coda via proxy (configure URL here)
-    const BACKEND_URL = ''; // Will be set after Apps Script deployment
-    if (BACKEND_URL) {
-        fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(r => console.log('✅ Sent to backend'))
-        .catch(e => console.warn('⚠️ Backend error, data saved locally'));
-    }
-}
-
-function copyCode() { navigator.clipboard.writeText(document.getElementById('completionCode').textContent).then(() => alert('Code copied!')); }
-updateProgress();
-</script>
+    <form id="reactionForm">
+      <div class="field">
+        <label>1. How compelling is this concept?</label>
+        <div class="scale">
+          <label><input type="radio" name="compelling" value="1" required><span>1</span></label>
+          <label><input type="radio" name="compelling" value="2"><span>2</span></label>
+          <label><input type="radio" name="compelling" value="3"><span>3</span></label>
+          <label><input type="radio" name="compelling" value="4"><span>4</span></label>
+          <label><input type="radio" name="compelling" value="5"><span>5</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>2. Would visible confidence make you trust AI more?</label>
+        <div class="scale">
+          <label><input type="radio" name="trust_more" value="1" required><span>1</span></label>
+          <label><input type="radio" name="trust_more" value="2"><span>2</span></label>
+          <label><input type="radio" name="trust_more" value="3"><span>3</span></label>
+          <label><input type="radio" name="trust_more" value="4"><span>4</span></label>
+          <label><input type="radio" name="trust_more" value="5"><span>5</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>3. Where could you imagine using something like this?</label>
+        <select name="use_case" required>
+          <option value="">Choose one</option>
+          <option value="work">Knowledge work</option>
+          <option value="research">Research / analysis</option>
+          <option value="personal">Personal decisions</option>
+          <option value="education">Learning / education</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>4. What is your first reaction in one sentence?</label>
+        <textarea name="reaction" rows="4" required placeholder="For example: This makes AI feel more honest, but only if the confidence is actually meaningful."></textarea>
+      </div>
+      <div class="field">
+        <label>5. Optional: If you want updates or a demo, leave your email.</label>
+        <input type="email" name="email" placeholder="name@company.com">
+      </div>
+      <button type="submit">Send reaction</button>
+      <div class="note">We log source, variant, and submission timestamp for this launch test.</div>
+      <div id="success" class="success hidden">Thanks. Your reaction was recorded.</div>
+    </form>
+  </div>
+  <script>
+    const WEBHOOK = 'https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4';
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('src') || 'direct';
+    const variant = params.get('v') || 'hero-a';
+    const sessionId = params.get('sid') || localStorage.getItem('blunt_session') || crypto.randomUUID();
+    localStorage.setItem('blunt_session', sessionId);
+    function send(event, payload) { return fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ event, source, variant, sessionId, url: location.href, ts: new Date().toISOString(), ...payload }) }); }
+    send('survey_view', {}).catch(() => {});
+    const form = document.getElementById('reactionForm');
+    const success = document.getElementById('success');
+    form.addEventListener('submit', async (e) => { e.preventDefault(); const data = Object.fromEntries(new FormData(form).entries()); try { await send('survey_submit', data); success.classList.remove('hidden'); form.reset(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); } catch (err) { alert('Submission failed. Please try again.'); } });
+  </script>
 </body>
 </html>
