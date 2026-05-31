@@ -7,7 +7,7 @@
   <style>
     :root { --ink:#101010; --paper:#f6f1e8; --accent:#ff6a3d; --accent2:#ffd166; --muted:#665f57; --line:rgba(16,16,16,.12); --card:rgba(255,255,255,.72); }
     * { box-sizing:border-box; }
-    body { margin:0; font-family:Georgia, 'Times New Roman', serif; background:radial-gradient(circle at top left, rgba(255,106,61,.18), transparent 28%), radial-gradient(circle at bottom right, rgba(255,209,102,.24), transparent 24%), var(--paper); color:var(--ink); }
+    body { margin:0; font-family:Georgia, "Times New Roman", serif; background:radial-gradient(circle at top left, rgba(255,106,61,.18), transparent 28%), radial-gradient(circle at bottom right, rgba(255,209,102,.24), transparent 24%), var(--paper); color:var(--ink); }
     .wrap { max-width:1100px; margin:0 auto; padding:32px 20px 72px; }
     .topbar { display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:42px; font-family:Helvetica, Arial, sans-serif; }
     .brand { font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
@@ -77,17 +77,43 @@
     </div>
   </div>
   <script>
-    const WEBHOOK = 'https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4';
+    const WEBHOOK = "https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4";
     const params = new URLSearchParams(window.location.search);
-    const source = params.get('src') || 'direct';
-    const variant = params.get('v') || 'hero-a';
-    const sessionId = localStorage.getItem('blunt_session') || crypto.randomUUID();
-    localStorage.setItem('blunt_session', sessionId);
-    const cta = document.getElementById('primaryCta');
-    cta.href = 'h10-survey.html?src=' + encodeURIComponent(source) + '&v=' + encodeURIComponent(variant) + '&sid=' + encodeURIComponent(sessionId);
-    function ping(eventName, extra){ fetch(WEBHOOK,{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ event:eventName, source, variant, sessionId, url:location.href, ts:new Date().toISOString(), ...extra }) }).catch(() => {}); }
-    ping('landing_view', {});
-    cta.addEventListener('click', () => ping('landing_cta_click', {}));
+    const source = params.get("src") || "direct";
+    const variant = params.get("v") || "hero-a";
+    const sessionId = localStorage.getItem("blunt_session") || crypto.randomUUID();
+    localStorage.setItem("blunt_session", sessionId);
+
+    const cta = document.getElementById("primaryCta");
+    cta.href = "h10-survey.html?src=" + encodeURIComponent(source) + "&v=" + encodeURIComponent(variant) + "&sid=" + encodeURIComponent(sessionId);
+
+    function sendEvent(eventName, extra) {
+      const payload = JSON.stringify({
+        event: eventName,
+        source,
+        variant,
+        sessionId,
+        url: location.href,
+        ts: new Date().toISOString(),
+        ...extra
+      });
+
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(WEBHOOK, new Blob([payload], { type: "text/plain;charset=UTF-8" }));
+        return;
+      }
+
+      fetch(WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
+    }
+
+    sendEvent("landing_view", {});
+    cta.addEventListener("click", () => sendEvent("landing_cta_click", {}));
   </script>
 </body>
 </html>

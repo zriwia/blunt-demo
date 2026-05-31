@@ -24,7 +24,7 @@
     .scale input { display:none; }
     .scale span { display:block; text-align:center; padding:12px 0; border-radius:12px; border:1px solid var(--line); background:#fff; font-weight:700; cursor:pointer; }
     .scale input:checked + span { background:var(--ink); color:#fff; border-color:var(--ink); }
-    textarea, input[type='text'], input[type='email'], select { width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 15px; font:inherit; background:#fff; }
+    textarea, input[type="text"], input[type="email"], select { width:100%; border:1px solid var(--line); border-radius:14px; padding:14px 15px; font:inherit; background:#fff; }
     button { appearance:none; border:0; border-radius:14px; background:var(--ink); color:#fff; padding:16px 22px; font-size:15px; font-weight:700; cursor:pointer; }
     .note { font-size:13px; color:var(--muted); line-height:1.5; }
     .hidden { display:none; }
@@ -86,17 +86,68 @@
     </form>
   </div>
   <script>
-    const WEBHOOK = 'https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4';
+    const WEBHOOK = "https://webhook.site/1c4dded0-f3f6-49a0-ada9-bdbd225b49d4";
     const params = new URLSearchParams(window.location.search);
-    const source = params.get('src') || 'direct';
-    const variant = params.get('v') || 'hero-a';
-    const sessionId = params.get('sid') || localStorage.getItem('blunt_session') || crypto.randomUUID();
-    localStorage.setItem('blunt_session', sessionId);
-    function send(event, payload) { return fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ event, source, variant, sessionId, url: location.href, ts: new Date().toISOString(), ...payload }) }); }
-    send('survey_view', {}).catch(() => {});
-    const form = document.getElementById('reactionForm');
-    const success = document.getElementById('success');
-    form.addEventListener('submit', async (e) => { e.preventDefault(); const data = Object.fromEntries(new FormData(form).entries()); try { await send('survey_submit', data); success.classList.remove('hidden'); form.reset(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); } catch (err) { alert('Submission failed. Please try again.'); } });
+    const source = params.get("src") || "direct";
+    const variant = params.get("v") || "hero-a";
+    const sessionId = params.get("sid") || localStorage.getItem("blunt_session") || crypto.randomUUID();
+    localStorage.setItem("blunt_session", sessionId);
+
+    function buildPayload(eventName, extra) {
+      return {
+        event: eventName,
+        source,
+        variant,
+        sessionId,
+        url: location.href,
+        ts: new Date().toISOString(),
+        ...extra
+      };
+    }
+
+    function rememberSubmission(payload) {
+      const stored = JSON.parse(localStorage.getItem("blunt_submissions") || "[]");
+      stored.push(payload);
+      localStorage.setItem("blunt_submissions", JSON.stringify(stored));
+    }
+
+    function sendEvent(payload) {
+      const body = JSON.stringify(payload);
+
+      if (navigator.sendBeacon) {
+        const queued = navigator.sendBeacon(WEBHOOK, new Blob([body], { type: "text/plain;charset=UTF-8" }));
+        return queued ? Promise.resolve(true) : Promise.reject(new Error("sendBeacon queue failed"));
+      }
+
+      return fetch(WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body,
+        keepalive: true
+      });
+    }
+
+    sendEvent(buildPayload("survey_view", {})).catch(() => {});
+
+    const form = document.getElementById("reactionForm");
+    const success = document.getElementById("success");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      const payload = buildPayload("survey_submit", data);
+      rememberSubmission(payload);
+
+      try {
+        await sendEvent(payload);
+        success.classList.remove("hidden");
+        form.reset();
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      } catch (err) {
+        alert("Submission failed. Please try again.");
+      }
+    });
   </script>
 </body>
 </html>
