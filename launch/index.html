@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blunt Launch Overview</title>
+    <style>
+      :root {
+        --bg: #f6f1e8;
+        --panel: #fffaf2;
+        --ink: #161616;
+        --muted: #5c564e;
+        --line: rgba(22, 22, 22, 0.12);
+        --accent: #d95f39;
+        --accent-2: #f1bb4b;
+        --shadow: 0 18px 48px rgba(22, 22, 22, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(241, 187, 75, 0.28), transparent 28%),
+          linear-gradient(180deg, #fbf5eb 0%, #f4efe6 58%, #efe9df 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1180px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 28px 0 56px;
+      }
+
+      .hero {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 250, 242, 0.96), rgba(252, 240, 217, 0.96));
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(40px, 7vw, 72px);
+        line-height: 0.95;
+        max-width: 11ch;
+      }
+
+      .hero-copy {
+        max-width: 72ch;
+        font-size: 19px;
+        line-height: 1.5;
+      }
+
+      .status-grid,
+      .link-grid,
+      .asset-grid,
+      .ops-grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 22px;
+      }
+
+      .status-grid,
+      .ops-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .link-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      .asset-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 20px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .card h2,
+      .card h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .label {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: rgba(217, 95, 57, 0.1);
+        color: #8d3d23;
+      }
+
+      .value {
+        font-size: 30px;
+        line-height: 1.05;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .cta-list,
+      .checklist,
+      .tracking-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .pill-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        margin-top: 14px;
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .secondary-link {
+        background: rgba(22, 22, 22, 0.06);
+        color: var(--ink);
+      }
+
+      .asset-preview {
+        width: 100%;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: #ede6db;
+        overflow: hidden;
+      }
+
+      img,
+      video {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      code {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: rgba(22, 22, 22, 0.05);
+      }
+
+      .section {
+        margin-top: 24px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <div class="eyebrow">Blunt launch cockpit</div>
+        <h1>Everything needed to launch, in one place.</h1>
+        <p class="hero-copy">
+          This page is the human-readable overview of the paid launch pack: the live landing, the live survey,
+          the approved creative set, the tracked URLs, and the exact activation steps for X Ads.
+        </p>
+      </section>
+
+      <section class="status-grid section">
+        <article class="card">
+          <div class="label">Repo status</div>
+          <p class="value">Commit <span style="color: var(--accent)">47e1ac0</span></p>
+          <p class="muted">The launch pack referenced in yesterday's message is the currently deployed public version.</p>
+        </article>
+        <article class="card">
+          <div class="label">Landing</div>
+          <p class="value">Live</p>
+          <p class="muted">Public paid landing is reachable and designed as the single next-step path from ads.</p>
+        </article>
+        <article class="card">
+          <div class="label">Survey</div>
+          <p class="value">Live</p>
+          <p class="muted">Concept-reaction survey is reachable and wired as the measurable conversion point.</p>
+        </article>
+        <article class="card">
+          <div class="label">X Ads</div>
+          <p class="value">Activation pending</p>
+          <p class="muted">Asset pack is ready. The remaining dependency is account access, billing, upload, and go-live inside X Ads.</p>
+        </article>
+      </section>
+
+      <section class="link-grid section">
+        <article class="card">
+          <h2>Live public pages</h2>
+          <p class="muted">The two URLs that matter during launch morning.</p>
+          <div class="cta-list">
+            <a class="pill-link" href="../paid/">Open paid landing</a>
+            <a class="pill-link secondary-link" href="../h10-survey.html">Open concept survey</a>
+          </div>
+        </article>
+        <article class="card">
+          <h2>Source boards and notes</h2>
+          <p class="muted">Creative board and packaging notes for fast reference while uploading.</p>
+          <div class="cta-list">
+            <a class="pill-link secondary-link" href="./creative/ad-boards.html?variant=square-01">Open source board</a>
+            <a class="pill-link secondary-link" href="./creative/README.md">Open creative notes</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="asset-grid section">
+        <article class="card">
+          <div class="label">Primary video</div>
+          <h3>blunt_manifesto_15s.mp4</h3>
+          <div class="asset-preview">
+            <video controls preload="metadata" src="./creative/blunt_manifesto_15s.mp4"></video>
+          </div>
+          <a class="pill-link secondary-link" href="./creative/blunt_manifesto_15s.mp4">Open raw asset</a>
+        </article>
+        <article class="card">
+          <div class="label">Image ad 1</div>
+          <h3>blunt_ad_square_01.png</h3>
+          <div class="asset-preview">
+            <img src="./creative/blunt_ad_square_01.png" alt="Blunt square ad 1" />
+          </div>
+          <a class="pill-link secondary-link" href="./creative/blunt_ad_square_01.png">Open raw asset</a>
+        </article>
+        <article class="card">
+          <div class="label">Image ad 2</div>
+          <h3>blunt_ad_square_02.png</h3>
+          <div class="asset-preview">
+            <img src="./creative/blunt_ad_square_02.png" alt="Blunt square ad 2" />
+          </div>
+          <a class="pill-link secondary-link" href="./creative/blunt_ad_square_02.png">Open raw asset</a>
+        </article>
+        <article class="card">
+          <div class="label">Portrait backup</div>
+          <h3>blunt_ad_portrait_01.png</h3>
+          <div class="asset-preview">
+            <img src="./creative/blunt_ad_portrait_01.png" alt="Blunt portrait ad backup" />
+          </div>
+          <a class="pill-link secondary-link" href="./creative/blunt_ad_portrait_01.png">Open raw asset</a>
+        </article>
+        <article class="card">
+          <div class="label">Longer support cut</div>
+          <h3>blunt_manifesto_40s.mp4</h3>
+          <div class="asset-preview">
+            <video controls preload="metadata" src="./creative/blunt_manifesto_40s.mp4"></video>
+          </div>
+          <a class="pill-link secondary-link" href="./creative/blunt_manifesto_40s.mp4">Open raw asset</a>
+        </article>
+      </section>
+
+      <section class="split section">
+        <article class="card">
+          <h2>Tracked launch URLs</h2>
+          <p class="muted">Use these exact variants inside X Ads so creative performance stays separable.</p>
+          <div class="tracking-list">
+            <div>
+              <div class="label">Video ad</div>
+              <code>https://zriwia.github.io/blunt-demo/paid/?src=x-paid&amp;campaign=blunt-launch&amp;v=video-01</code>
+            </div>
+            <div>
+              <div class="label">Image ad 1</div>
+              <code>https://zriwia.github.io/blunt-demo/paid/?src=x-paid&amp;campaign=blunt-launch&amp;v=image-01</code>
+            </div>
+            <div>
+              <div class="label">Image ad 2</div>
+              <code>https://zriwia.github.io/blunt-demo/paid/?src=x-paid&amp;campaign=blunt-launch&amp;v=image-02</code>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <h2>Launch morning checklist</h2>
+          <div class="checklist">
+            <p>1. Confirm X Ads account is unlocked and billable.</p>
+            <p>2. Upload `blunt_manifesto_15s.mp4`, `blunt_ad_square_01.png`, and `blunt_ad_square_02.png`.</p>
+            <p>3. Paste the tracked URL that matches each creative.</p>
+            <p>4. Use a traffic / website visits objective.</p>
+            <p>5. Run the simplest first structure: one audience, one video, two image variants.</p>
+            <p>6. Watch approvals, landing clicks, survey clicks, and survey submissions in the first hour.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="ops-grid section">
+        <article class="card">
+          <h2>Copy pairing</h2>
+          <p class="muted">Fastest safe launch pairing from the copy pack.</p>
+          <div class="checklist">
+            <p><strong>Video:</strong> Primary text 1, headline 1, description 1.</p>
+            <p><strong>Image 1:</strong> Primary text 2, headline 2, description 2.</p>
+            <p><strong>Image 2:</strong> Primary text 3, headline 3, description 3.</p>
+          </div>
+        </article>
+        <article class="card">
+          <h2>Decision rule</h2>
+          <p class="muted">Do not optimize for vanity traffic.</p>
+          <div class="checklist">
+            <p>If one creative wins CTR clearly, keep it and pause the weakest.</p>
+            <p>If clicks reach the landing but not the survey, sharpen the hero and CTA.</p>
+            <p>If survey starts happen but not submissions, reduce friction or inspect comments.</p>
+          </div>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>
