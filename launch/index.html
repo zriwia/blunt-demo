@@ -78,7 +78,8 @@
       .status-grid,
       .link-grid,
       .asset-grid,
-      .ops-grid {
+      .ops-grid,
+      .copy-grid {
         display: grid;
         gap: 16px;
         margin-top: 22px;
@@ -95,6 +96,10 @@
 
       .asset-grid {
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .copy-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
 
       .card {
@@ -134,7 +139,8 @@
 
       .cta-list,
       .checklist,
-      .tracking-list {
+      .tracking-list,
+      .url-list {
         display: grid;
         gap: 10px;
         margin-top: 12px;
@@ -215,8 +221,8 @@
       <section class="status-grid section">
         <article class="card">
           <div class="label">Repo status</div>
-          <p class="value">Commit <span style="color: var(--accent)">47e1ac0</span></p>
-          <p class="muted">The launch pack referenced in yesterday's message is the currently deployed public version.</p>
+          <p class="value">Public and current</p>
+          <p class="muted">Launch overview, landing, survey, and assets are publicly reachable on GitHub Pages.</p>
         </article>
         <article class="card">
           <div class="label">Landing</div>
@@ -242,6 +248,12 @@
           <div class="cta-list">
             <a class="pill-link" href="../paid/">Open paid landing</a>
             <a class="pill-link secondary-link" href="../h10-survey.html">Open concept survey</a>
+            <a class="pill-link secondary-link" href="./">Open launch overview</a>
+          </div>
+          <div class="url-list">
+            <code>https://zriwia.github.io/blunt-demo/paid/</code>
+            <code>https://zriwia.github.io/blunt-demo/h10-survey.html</code>
+            <code>https://zriwia.github.io/blunt-demo/launch/</code>
           </div>
         </article>
         <article class="card">
@@ -250,6 +262,7 @@
           <div class="cta-list">
             <a class="pill-link secondary-link" href="./creative/ad-boards.html?variant=square-01">Open source board</a>
             <a class="pill-link secondary-link" href="./creative/README.md">Open creative notes</a>
+            <a class="pill-link secondary-link" href="./ad-copy.md">Open full copy pack</a>
           </div>
         </article>
       </section>
@@ -346,6 +359,45 @@
             <p>If one creative wins CTR clearly, keep it and pause the weakest.</p>
             <p>If clicks reach the landing but not the survey, sharpen the hero and CTA.</p>
             <p>If survey starts happen but not submissions, reduce friction or inspect comments.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="copy-grid section">
+        <article class="card">
+          <div class="label">Video copy</div>
+          <h2>Thesis-led</h2>
+          <p class="muted">
+            AI should not just answer. It should show how sure it is. Blunt makes confidence visible so
+            people know when to trust, when to verify, and when to push back.
+          </p>
+          <div class="checklist">
+            <p><strong>Headline:</strong> AI should show how sure it is</p>
+            <p><strong>Description:</strong> See the concept and leave a quick reaction.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="label">Image 1 copy</div>
+          <h2>Trust-gap</h2>
+          <p class="muted">
+            The problem with AI is not only accuracy. It is fake certainty. Blunt makes uncertainty visible
+            instead of hiding it in polished wording.
+          </p>
+          <div class="checklist">
+            <p><strong>Headline:</strong> The AI that will not pretend</p>
+            <p><strong>Description:</strong> Short concept test. Clear product wedge.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="label">Image 2 copy</div>
+          <h2>Product framing</h2>
+          <p class="muted">
+            What if AI showed its confidence as part of the interface? Blunt is testing whether visible
+            confidence makes AI feel more honest, trustworthy, and useful.
+          </p>
+          <div class="checklist">
+            <p><strong>Headline:</strong> Visible confidence for AI answers</p>
+            <p><strong>Description:</strong> Explore an AI interface built around visible confidence.</p>
           </div>
         </article>
       </section>
